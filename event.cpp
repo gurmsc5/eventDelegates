@@ -50,9 +50,8 @@ void Event<Params...>::fire(Params ...params)
 #ifdef DEBUG_MODE
 		std::cout << "-----Callback event with name: " << it.first << " to be fired-----" << std::endl;
 #endif
-		(it.second)(params...);
+		(it.second)(std::forward<Params>(params)...);
 	}
-
 }
 
 template<typename ...Params>
