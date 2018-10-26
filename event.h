@@ -11,7 +11,7 @@ public:
 	using Delegate_Type = Delegate<Params...>;
 
 	virtual void addCallback(const std::string, const Delegate_Type&) = 0;
-	virtual void removeCallback(const std::string, const Delegate_Type&)=0;
+	virtual void removeCallback(const std::string&, const Delegate_Type&)=0;
 	virtual void removeAllCallbacks() = 0;
 	virtual void fire(Params...)=0;
 
@@ -33,8 +33,9 @@ public:
 	Event();
 	virtual ~Event();
 	virtual void addCallback(const std::string desc, const Delegate_Type&);
-	virtual void removeCallback(const std::string desc, const Delegate_Type&);
+	virtual void removeCallback(const std::string& desc, const Delegate_Type&);
 	virtual void removeAllCallbacks();
 	virtual void fire(Params...);
+	virtual void fire_unique_callback(std::string &&callback_name, Params ...params);
 	size_t get_total_registered_callbacks_count() const;
 };

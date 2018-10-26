@@ -22,7 +22,7 @@ void Event<Params...>::addCallback(const std::string desc, const Delegate_Type &
 }
 
 template<typename ...Params>
-void Event<Params...>::removeCallback(const std::string desc, const Delegate_Type &del)
+void Event<Params...>::removeCallback(const std::string& desc, const Delegate_Type &del)
 {
 	auto it = delegateMap.find(desc);
 	if (it != delegateMap.end()) {
@@ -51,6 +51,20 @@ void Event<Params...>::fire(Params ...params)
 		std::cout << "-----Callback event with name: " << it.first << " to be fired-----" << std::endl;
 #endif
 		(it.second)(std::forward<Params>(params)...);
+	}
+}
+
+template<typename ...Params>
+void Event<Params...>::fire_unique_callback(std::string &&callback_name, Params ...params)
+{
+	auto it = delegateMap.find(std::forward<std::string>(callback_name));
+	if(it != delegateMap.end())
+	{
+#ifdef DEBUG_MODE
+		std::cout << "-----Callback event with name: " << it->first << " to be fired-----" << std::endl;
+#endif
+
+		(it->second)(std::forward<Params>(params)...);
 	}
 }
 
